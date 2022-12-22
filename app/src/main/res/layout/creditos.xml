@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/titulo"
         android:layout_width="414dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="576dp"
@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tituloAutores"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Autores"
@@ -28,7 +28,7 @@
         tools:layout_editor_absoluteY="232dp" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/autor1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ruben Anastácio"
@@ -39,7 +39,7 @@
         tools:layout_editor_absoluteY="254dp" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/nAutor1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="20965"
@@ -51,7 +51,7 @@
         tools:layout_editor_absoluteY="254dp" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/nAutor2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="23"
@@ -63,7 +63,7 @@
         tools:layout_editor_absoluteY="276dp" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/autor2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Guilherme"
