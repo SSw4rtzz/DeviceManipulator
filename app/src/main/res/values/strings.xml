@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">DeviceManipulator</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="solucao1">6</string>
 </resources>

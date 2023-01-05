@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="DevideManipulator"
@@ -28,6 +29,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/jogar"
+        android:layout_width="234dp"
+        android:layout_height="109dp"
+        android:text="Jogar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/registar"
         android:layout_width="117dp"
         android:layout_height="49dp"
@@ -40,7 +52,7 @@
     <Button
         android:id="@+id/creditos"
         android:layout_width="119dp"
-        android:layout_height="47dp"
+        android:layout_height="48dp"
         android:layout_marginTop="676dp"
         android:text="Créditos"
         app:layout_constraintEnd_toEndOf="parent"
