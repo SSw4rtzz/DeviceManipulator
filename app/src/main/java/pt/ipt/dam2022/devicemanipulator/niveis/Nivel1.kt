@@ -32,7 +32,7 @@ class Nivel1 : AppCompatActivity() {
         btnProximoNivel.visibility = View.GONE
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        orientationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION)
+        orientationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
 
         orientationListener = object : OrientationEventListener(this) {
             override fun onOrientationChanged(orientation: Int) {
@@ -45,7 +45,6 @@ class Nivel1 : AppCompatActivity() {
             }
         }
     }
-
 
     override fun onResume() {
         super.onResume()

@@ -4,7 +4,7 @@
     <!-- Permissões necessárias -->
     <uses-permission android:name="android.permission.ACCESS_DISPLAY_MANAGER" />
     <uses-permission android:name="android.permission.SENSOR_SERVICE" />
-
+    <uses-permission android:name="android.permission.ACCESS_DISPLAY_MANAGER"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
