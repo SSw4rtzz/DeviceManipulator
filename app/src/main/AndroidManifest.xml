@@ -17,7 +17,7 @@
         android:theme="@style/Theme.DeviceManipulator"
         tools:targetApi="31">
         <activity
-            android:name=".Nivel3"
+            android:name=".niveis.Nivel3"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

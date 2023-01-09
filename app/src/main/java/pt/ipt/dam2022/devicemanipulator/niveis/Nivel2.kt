@@ -3,6 +3,7 @@ package pt.ipt.dam2022.devicemanipulator.niveis
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Rect
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -57,14 +58,14 @@ class Nivel2 : AppCompatActivity() {
         val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         val accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
-        //Lê o tamanho máximo do ecrã e define até onde o ponto pode ir
         val displaymetrics = resources.displayMetrics
-        val xMax = displaymetrics.widthPixels - 200f
-        val yMax = displaymetrics.heightPixels - 400f
-
         // Converter 35dp (Raio da bola branca) em pixeis, isto servirá para criar a margem de erro
         val density = displaymetrics.density
-        val radius = 35 * density
+        val radius = 10 * density
+
+        //Lê o tamanho máximo do ecrã e define até onde o ponto pode ir, 35 representa o raio da bola
+        val xMax = displaymetrics.widthPixels - (radius*2)
+        val yMax = displaymetrics.heightPixels - (radius*2)
         Log.d("myTag", "Altura: $xMax")
         Log.d("myTag", "Largura: $yMax")
 
@@ -73,66 +74,75 @@ class Nivel2 : AppCompatActivity() {
                 xAccel = event!!.values[0]
                 yAccel = -event.values[1]
                 updateCirculoNivel2()
-                //Quando concluido o objetivo, bloqueia o listener do sensor e começa a animação do circPreto
-                if ((xPos <= xMax/1.5f) && (yPos <= yMax/3)){
-                    //if ((xPos <= xMax/1.5f + radius && xPos >= xMax/1.5f - radius) && (yPos <= yMax/3 + radius && yPos >= yMax/3 - radius)){
-                    //Para o listener do sensor
-                    sensorManager.unregisterListener(this, accelerometer)
-                    btnProximoNivel.visibility = View.VISIBLE
-                    //Faz animação
-                    circPreto.startAnimation(zoom)
-                    //Handler para colorir o backgroud de preto após a animação acabar
-                    h.postDelayed({layout.setBackgroundColor(Color.BLACK) }, 2900)
                 }
-
-                //Log.d("myTag", "Y: $targetY")
-                //Log.d("myTag", "X: $targetX")
-            }
 
             private fun updateCirculoNivel2() {
                 val frameTime = 1f
+                //Velocidade
                 xVel += (xAccel * frameTime)
                 yVel += (yAccel * frameTime)
 
+                //Distância a que o ponto se deslocou
                 val xS = (xVel / 2) * frameTime
                 val yS = (yVel / 2) * frameTime
 
+                //xPos é a posição do ponto no ecrã
                 xPos -= xS
                 yPos -= yS
 
+                //Quando o ponto atinge um dos cantos do ecrã a sua velocidade é zerada, e a posição mantém-se de forma a impedir que o ponto saia do ecrã
                 if (xPos > xMax/2) {
                     xPos = xMax/2
+                    xVel = 0f
                 } else if (xPos < 0-xMax/2) {
                     xPos = -xMax/2
+                    xVel = 0f
                 }
 
                 if (yPos > yMax/2) {
                     yPos = yMax/2
+                    yVel = 0f
                 } else if (yPos < 0-yMax/2) {
                     yPos = -yMax/2f
+                    yVel = 0f
                 }
 
-                xPos = xMax/1.5f
-                yPos = yMax/3
-
+                Log.d("myTag", "Posição:")
                 Log.d("myTag", "Largura: $xPos")
                 Log.d("myTag", "Altura: $yPos")
+                Log.d("myTag", "Tem de estar entre x:" + ((xMax/2)/1.5f + radius) + " e " + (xMax/2)/1.5f)
+                Log.d("myTag", "Tem de estar entre y:" + ((yMax/2)/3 + radius) + " e " + (yMax/2)/3)
 
-                // Fica a piscar e muito Bugado, se o metodo animate() funcionar é para apagar
-                /*val objectAnimatorX = ObjectAnimator.ofFloat(ponto, "translationX", ponto.x, xPos)
-                objectAnimatorX.duration = 100
-                objectAnimatorX.start()
-                val objectAnimatorY = ObjectAnimator.ofFloat(ponto, "translationY", ponto.y, yPos)
-                objectAnimatorY.duration = 100
-                objectAnimatorY.start()*/
 
-            //val anim = ponto.animate().translationX(xPos).translationY(yPos)
-                //anim.duration = 100 //250 Default tempo em milissegundos
-                //anim.start()
+            val anim = ponto.animate().translationX(xPos).translationY(yPos)
+                anim.duration = 100 //250 Default tempo em milissegundos
+                anim.start()
 
-                //************ DEBUG ****************
-                ponto.x = xMax/1.5f
-                ponto.y = yMax/3
+                val xScreen = xMax / 2 + xPos
+                val yScreen = yMax / 2 + yPos
+                //Posição objetivo
+                val raioObjetivo = 29 * density- radius
+                val posObjetivox = xMax * 0.739
+                val posObjetivoy = yMax * 0.23
+
+                //Quando concluido o objetivo, bloqueia o listener do sensor e começa a animação do circPreto
+                //MODO DESENVOLVIMENTO
+                //if ((xPos <= xMax/1.5f) && (yPos <= yMax/3)){
+                if ((xScreen <= posObjetivox + raioObjetivo && xScreen >= posObjetivox - raioObjetivo) && (yScreen <= posObjetivoy + raioObjetivo && yScreen >= posObjetivoy - raioObjetivo)){
+                    //Para o listener do sensor
+                        sensorManager.unregisterListener(this, accelerometer)
+                        btnProximoNivel.visibility = View.VISIBLE
+                        //Faz animação
+                        circPreto.startAnimation(zoom)
+                    //Handler para colorir o backgroud de preto após a animação acabar
+                    h.postDelayed({layout.setBackgroundColor(Color.BLACK) }, 2900)
+                }
+
+
+
+                //************ MODO DESENVOLVIMENTO ****************
+                //ponto.x = xScreen
+                //ponto.y = yScreen
 
 
                 //Metodo a funcionar 100%, mas sem animação
@@ -146,7 +156,5 @@ class Nivel2 : AppCompatActivity() {
         }
 
         sensorManager.registerListener(listener, accelerometer, SensorManager.SENSOR_DELAY_UI)
-
-
     }
 }

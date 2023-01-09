@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".niveis.Nivel1">
 
     <TextView
@@ -12,6 +13,7 @@
         android:layout_height="72dp"
         android:layout_gravity="center_horizontal"
         android:layout_margin="100dp"
+        android:textColor="@color/black"
         android:text="Nove"
         android:textAlignment="center"
         android:textSize="48sp"
@@ -27,6 +29,7 @@
         android:layout_height="66dp"
         android:layout_gravity="center"
         android:text="@string/solucao1"
+        android:textColor="@color/black"
         android:textAlignment="center"
         android:textSize="48sp"
         app:layout_constraintBottom_toBottomOf="parent"

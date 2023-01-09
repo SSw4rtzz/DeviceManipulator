@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import pt.ipt.dam2022.devicemanipulator.niveis.Nivel1
+import pt.ipt.dam2022.devicemanipulator.niveis.Nivel3
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
