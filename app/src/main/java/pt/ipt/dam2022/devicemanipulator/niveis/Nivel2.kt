@@ -17,6 +17,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import pt.ipt.dam2022.devicemanipulator.R
 
 
@@ -31,6 +32,7 @@ class Nivel2 : AppCompatActivity() {
     private var yAccel = 0.0f
     private var xVel = 0.0f
     private var yVel = 0.0f
+    private var stringDica = "Inclina o aparelho para mover o ponto preto"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +53,15 @@ class Nivel2 : AppCompatActivity() {
         val ponto = findViewById<ImageView>(R.id.ponto)
 
         val layout = findViewById<View>(R.id.layoutNivel2)
+
+        val btnDica = findViewById<ImageView>(R.id.dica)
+
+        val dica = Snackbar.make(layout, stringDica, 5000)
+        //Botão para mostrar uma dica
+        btnDica.setOnClickListener {
+            dica.show()
+        }
+
         // Circulo objetivo que preenche o ecrã quando utilizador faz o objetivo
         val circPreto = findViewById<ImageView>(R.id.circPreto)
         val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager

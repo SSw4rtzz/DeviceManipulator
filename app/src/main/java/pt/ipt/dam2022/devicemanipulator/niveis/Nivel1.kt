@@ -10,6 +10,8 @@ import android.util.Log
 import android.view.OrientationEventListener
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
+import com.google.android.material.snackbar.Snackbar
 import pt.ipt.dam2022.devicemanipulator.R
 
 class Nivel1 : AppCompatActivity() {
@@ -17,11 +19,20 @@ class Nivel1 : AppCompatActivity() {
     private lateinit var sensorManager: SensorManager
     private lateinit var orientationSensor: Sensor
     private var orientationListener: OrientationEventListener? = null
+    private var stringDica = "Experimente rodar o telemóvel"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.nivel1)
-        Log.d("myTag", "Nivel1")
+
+        val layout = findViewById<View>(R.id.layoutNivel1)
+        val btnDica = findViewById<ImageView>(R.id.dica)
+
+        val dica = Snackbar.make(layout, stringDica, 5000)
+        //Botão para mostrar uma dica
+        btnDica.setOnClickListener {
+            dica.show()
+        }
 
         //Botão para passar para o próximo nivel, é mostrado apenas quando o nivel é concluido
         val btnProximoNivel = findViewById<Button>(R.id.btnProximoNivel)
