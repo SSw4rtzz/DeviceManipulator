@@ -39,7 +39,7 @@ class Nivel1 : AppCompatActivity() {
         val btnProximoNivel = findViewById<Button>(R.id.btnProximoNivel)
         //Evento onClick do botão "Próximo Nivel" levando a aplicação à activity do próximo nivel
         btnProximoNivel.setOnClickListener {
-            val intent = Intent(this, Nivel4::class.java)
+            val intent = Intent(this, Nivel2::class.java)
             startActivity(intent)
         }
         //Esconde o botão "Próximo Nivel" quando a activity é criada
