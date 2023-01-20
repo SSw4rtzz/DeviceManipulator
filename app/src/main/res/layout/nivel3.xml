@@ -3,60 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutNivel3"
+    android:background="#161616"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
     tools:context=".niveis.Nivel3">
 
-
     <ImageView
-        android:id="@+id/montanha"
-        android:layout_width="426dp"
-        android:layout_height="131dp"
-        android:layout_marginTop="392dp"
+        android:id="@+id/gatoAcordado"
+        android:layout_width="201dp"
+        android:layout_height="364dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25"
-        app:srcCompat="@drawable/montanhas" />
-
-    <ImageView
-        android:id="@+id/noite"
-        android:layout_width="466dp"
-        android:layout_height="285dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/montanha"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="@+id/montanha"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/retangulo_nivel3" />
-
-    <ImageView
-        android:id="@+id/lua"
-        android:layout_width="142dp"
-        android:layout_height="123dp"
-        app:layout_constraintBottom_toBottomOf="@+id/noite"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.858"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.979"
-        app:srcCompat="@drawable/lua" />
-
-    <ImageView
-        android:id="@+id/sol"
-        android:layout_width="182dp"
-        android:layout_height="163dp"
-        app:layout_constraintBottom_toBottomOf="@+id/noite"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.213"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/sol" />
+         />
 
     <Button
         android:id="@+id/btnProximoNivel"
@@ -81,6 +41,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.019"
         app:srcCompat="@drawable/dicaicon" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

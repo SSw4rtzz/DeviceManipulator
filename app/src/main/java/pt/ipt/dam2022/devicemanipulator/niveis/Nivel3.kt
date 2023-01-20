@@ -1,107 +1,134 @@
 package pt.ipt.dam2022.devicemanipulator.niveis
 
-import android.animation.ArgbEvaluator
-import android.animation.ObjectAnimator
+import android.content.Context
 import android.content.Intent
-import android.database.ContentObserver
-import android.graphics.Color
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.provider.Settings
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import pt.ipt.dam2022.devicemanipulator.R
 
-class Nivel3 : AppCompatActivity() {
+class Nivel3 : AppCompatActivity(), SensorEventListener {
+    private lateinit var sensorManager: SensorManager
+    private lateinit var sensor: Sensor
+    private lateinit var gifImageView: ImageView
+    private val shakeThreshold = 3f
+    private var lastX = 0f
+    private var lastY = 0f
+    private var lastZ = 0f
+    private var abanado = false
+    private var abanCount = 0
+    private var stringDica = "Experimente abanar o telemóvel"
 
-    private var animNoite = true
-    private var animDia = false
-    private var stringDica = "Experimente utilizar o brilho do telemóvel"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.nivel3)
 
         val layout = findViewById<View>(R.id.layoutNivel3)
-        val btnDica = findViewById<ImageView>(R.id.dica)
 
-        val dica = Snackbar.make(layout, stringDica, 5000)
-        //Botão para mostrar uma dica
-        btnDica.setOnClickListener {
-            dica.show()
-        }
-
+        // ************** BOTÃO PROXIMO NIVEL **************
         val btnProximoNivel = findViewById<Button>(R.id.btnProximoNivel)
-        //Botão para passar para o próximo nivel
+        //Evento onClick do botão "Próximo Nivel" levando a aplicação à activity do próximo nivel
         btnProximoNivel.setOnClickListener {
             val intent = Intent(this, Nivel4::class.java)
             startActivity(intent)
         }
+        //Esconde o botão "Próximo Nivel" quando a activity é criada
         btnProximoNivel.visibility = View.GONE
+        //************** BOTÃO PROXIMO NIVEL **************
+
+        // ****************** BOTÃO DICA ******************
+        val btnDica = findViewById<ImageView>(R.id.dica)
+        val dica = Snackbar.make(layout, stringDica, 5000)
+        //Evento onClick do botão "Dica" mostrando um pequeno texto no final do ecrã
+        btnDica.setOnClickListener {
+            dica.show()
+        }
+        // ****************** BOTÃO DICA ******************
+
+        // Inicialização do sensor acelerometro
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        abanado = false
+
+        gifImageView = findViewById(R.id.gatoAcordado)
+
+        // Carrega o primeiro gif (Gato a dormir)
+        loadGif()
     }
 
-    //Adquire o nivel de brilho do ecrã
-    private val brilhoObs = object : ContentObserver(Handler(Looper.getMainLooper())) {
-        override fun onChange(selfChange: Boolean) {
-            val brilho = Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS)
-            Log.d("Nivel3Debug", "Brilho: $brilho")
-            updateBackgroundColor(brilho)
+    // Valida se o telémovel já foi abanado para carregar o gif correto
+    private fun loadGif() {
+        if (abanado) {
+            Glide.with(this)
+                .asGif()
+                .load(R.drawable.gatoacordado)
+                .into(gifImageView)
+        } else {
+            Glide.with(this)
+                .asGif()
+                .load(R.drawable.gatodormir)
+                .into(gifImageView)
         }
     }
 
-    private fun updateBackgroundColor(brilho: Int) {
-        val layout = findViewById<View>(R.id.layoutNivel3)
-        val btnProximoNivel = findViewById<Button>(R.id.btnProximoNivel)
-        val lua = findViewById<ImageView>(R.id.lua)
-        val sol = findViewById<ImageView>(R.id.sol)
+    // Regista o listener do sensor quando a atividade é retomada
+    override fun onResume() {
+        super.onResume()
+        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
+    }
 
-        if(brilho >= 80 && !animDia) {
-            val anim = ObjectAnimator.ofObject(layout, "backgroundColor", ArgbEvaluator(), Color.BLACK, Color.WHITE)
-            anim.duration = 2000
-            anim.start()
-            animDia = true
-            animNoite = false
-            //cor = argbEvaluator.evaluate(brilho / 255f, Color.BLACK, Color.WHITE) as Int
-        } else if (brilho < 80 && !animNoite){
-            val anim = ObjectAnimator.ofObject(layout, "backgroundColor", ArgbEvaluator(), Color.WHITE, Color.BLACK)
-            anim.duration = 2000
-            anim.start()
-            animNoite = true
-            animDia = false
+    // Remove o listener do sensor quando a atividade é pausada
+    override fun onPause() {
+        super.onPause()
+        sensorManager.unregisterListener(this)
+    }
+
+    // Função executado sempre que há mudanças no sensor de acelerometro
+    override fun onSensorChanged(event: SensorEvent) {
+        // Recolhe os valores do acelarometro e coloca-os em variáveis
+        val x = event.values[0]
+        val y = event.values[1]
+        val z = event.values[2]
+
+        // Calcula a diferença entre os valores atuais e anteriores dos eixos x, y e z
+        val deltaX = kotlin.math.abs(x - lastX)
+        val deltaY = kotlin.math.abs(y - lastY)
+        val deltaZ = kotlin.math.abs(z - lastZ)
+
+        // Se a diferença for maior que o threshold, adiciona 1 à variável abanCount
+        if (deltaX > shakeThreshold || deltaY > shakeThreshold || deltaZ > shakeThreshold) {
+            abanCount++
         }
-        val h = Handler(Looper.getMainLooper())
-        if(brilho == 255){
+
+        // Se o abanCount for 6 ou mais, considera-se que o aparelho foi abanado o suficiente
+        if (abanCount >= 6) {
+            abanado = true
+            loadGif()
+
+            val btnProximoNivel = findViewById<Button>(R.id.btnProximoNivel)
+            // Mostra o botão de próximo nível depois de 2 segundos
+            val h = Handler(Looper.getMainLooper())
             h.postDelayed({btnProximoNivel.visibility = View.VISIBLE }, 2000)
         }
 
-        // Máximo - (brilho / 255f) * (maxTranslationY - minTranslationY)
-        val displaymetrics = resources.displayMetrics
-
-        val yMax = displaymetrics.heightPixels - 600
-
-        val y = 0 + (brilho / 255f) * (0 - yMax)
-
-        val animLua = ObjectAnimator.ofFloat(lua, "translationY", lua.translationY, y)
-        animLua.duration = 2000
-        animLua.start()
-
-        val animSol = ObjectAnimator.ofFloat(sol, "translationY", sol.translationY, y)
-        animSol.duration = 2000
-        animSol.start()
+        // Atualiza os valores dos eixos x, y e z
+        lastX = x
+        lastY = y
+        lastZ = z
     }
 
-    override fun onResume() {
-        super.onResume()
-        contentResolver.registerContentObserver(Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS), false, brilhoObs)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        contentResolver.unregisterContentObserver(brilhoObs)
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
     }
 }
+

@@ -38,13 +38,16 @@ class Nivel2 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.nivel2)
 
-        //Botão para passar para o próximo nivel
+        // ************** BOTÃO PROXIMO NIVEL **************
         val btnProximoNivel = findViewById<Button>(R.id.btnProximoNivel)
+        //Evento onClick do botão "Próximo Nivel" levando a aplicação à activity do próximo nivel
         btnProximoNivel.setOnClickListener {
-            val intent = Intent(this, Nivel3::class.java)
+            val intent = Intent(this, Nivel4::class.java)
             startActivity(intent)
         }
+        //Esconde o botão "Próximo Nivel" quando a activity é criada
         btnProximoNivel.visibility = View.GONE
+        //************** BOTÃO PROXIMO NIVEL **************
 
         val h = Handler(Looper.getMainLooper())
 
@@ -54,13 +57,14 @@ class Nivel2 : AppCompatActivity() {
 
         val layout = findViewById<View>(R.id.layoutNivel2)
 
+        // ****************** BOTÃO DICA ******************
         val btnDica = findViewById<ImageView>(R.id.dica)
-
         val dica = Snackbar.make(layout, stringDica, 5000)
-        //Botão para mostrar uma dica
+        //Evento onClick do botão "Dica" mostrando um pequeno texto no final do ecrã
         btnDica.setOnClickListener {
             dica.show()
         }
+        // ****************** BOTÃO DICA ******************
 
         // Circulo objetivo que preenche o ecrã quando utilizador faz o objetivo
         val circPreto = findViewById<ImageView>(R.id.circPreto)

@@ -26,20 +26,26 @@ class Nivel1 : AppCompatActivity() {
         setContentView(R.layout.nivel1)
 
         val layout = findViewById<View>(R.id.layoutNivel1)
+        // ****************** BOTÃO DICA ******************
         val btnDica = findViewById<ImageView>(R.id.dica)
-
         val dica = Snackbar.make(layout, stringDica, 5000)
-        //Botão para mostrar uma dica
+        //Evento onClick do botão "Dica" mostrando um pequeno texto no final do ecrã
         btnDica.setOnClickListener {
             dica.show()
         }
+        // ****************** BOTÃO DICA ******************
 
-        //Botão para passar para o próximo nivel, é mostrado apenas quando o nivel é concluido
+        // ************** BOTÃO PROXIMO NIVEL **************
         val btnProximoNivel = findViewById<Button>(R.id.btnProximoNivel)
+        //Evento onClick do botão "Próximo Nivel" levando a aplicação à activity do próximo nivel
         btnProximoNivel.setOnClickListener {
-            val intent = Intent(this, Nivel2::class.java)
+            val intent = Intent(this, Nivel4::class.java)
             startActivity(intent)
         }
+        //Esconde o botão "Próximo Nivel" quando a activity é criada
+        btnProximoNivel.visibility = View.GONE
+        //************** BOTÃO PROXIMO NIVEL **************
+
         btnProximoNivel.visibility = View.GONE
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
