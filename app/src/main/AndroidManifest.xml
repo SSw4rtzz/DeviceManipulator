@@ -4,7 +4,7 @@
     <!-- Permissões necessárias -->
     <uses-permission android:name="android.permission.ACCESS_DISPLAY_MANAGER" />
     <uses-permission android:name="android.permission.SENSOR_SERVICE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +16,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DeviceManipulator"
         tools:targetApi="31">
+        <activity
+            android:name=".niveis.Nivel5"
+            android:exported="false" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
         <activity
             android:name=".niveis.Nivel4"
             android:exported="false">

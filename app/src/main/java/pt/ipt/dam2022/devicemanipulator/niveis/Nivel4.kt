@@ -23,7 +23,7 @@ class Nivel4 : AppCompatActivity() {
     private var animNoite = true
     private var animDia = false
     private var stringDica = "Experimente utilizar o brilho do telemóvel"
-    private var nivelAtual = 4;
+    private var nivelAtual = 4
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +42,7 @@ class Nivel4 : AppCompatActivity() {
         val btnProximoNivel = findViewById<Button>(R.id.btnProximoNivel)
         //Evento onClick do botão "Próximo Nivel" levando a aplicação à activity do próximo nivel
         btnProximoNivel.setOnClickListener {
-            val intent = Intent(this, Nivel4::class.java)
+            val intent = Intent(this, Nivel5::class.java)
             startActivity(intent)
         }
         //Esconde o botão "Próximo Nivel" quando a activity é criada
@@ -53,7 +53,7 @@ class Nivel4 : AppCompatActivity() {
         val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
         editor.putInt("nivel_atual", nivelAtual)
-        editor.apply();
+        editor.apply()
         Log.d("Debug", "Save Criado $nivelAtual")
         //**************** FIM GUARDA NIVEL ****************
 

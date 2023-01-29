@@ -6,10 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import pt.ipt.dam2022.devicemanipulator.niveis.Nivel1
-import pt.ipt.dam2022.devicemanipulator.niveis.Nivel2
-import pt.ipt.dam2022.devicemanipulator.niveis.Nivel3
-import pt.ipt.dam2022.devicemanipulator.niveis.Nivel4
+import pt.ipt.dam2022.devicemanipulator.niveis.*
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -32,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         //Reação ao botão "Novo Jogo", limpa t0do o progresso faz o utilizador começar de novo
         val btnNovoJogo = findViewById<Button>(R.id.novoJogo)
         btnNovoJogo.setOnClickListener {
-            val intent = Intent(this, Nivel1::class.java)
+            val intent = Intent(this, Nivel5::class.java)
             startActivity(intent)
         }
 
@@ -60,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             //DEBUG para saves, é para apagar
             val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
             val editor = sharedPref.edit()
-            editor.putInt("nivel_atual", 3)
+            editor.putInt("nivel_atual", 4)
             editor.apply();
             Log.d("Debug", "Ficheiro criado")
 
