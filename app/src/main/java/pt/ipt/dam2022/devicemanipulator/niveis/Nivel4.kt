@@ -2,6 +2,7 @@ package pt.ipt.dam2022.devicemanipulator.niveis
 
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.content.Intent
 import android.database.ContentObserver
 import android.graphics.Color
@@ -22,6 +23,7 @@ class Nivel4 : AppCompatActivity() {
     private var animNoite = true
     private var animDia = false
     private var stringDica = "Experimente utilizar o brilho do telemóvel"
+    private var nivelAtual = 4;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +48,16 @@ class Nivel4 : AppCompatActivity() {
         //Esconde o botão "Próximo Nivel" quando a activity é criada
         btnProximoNivel.visibility = View.GONE
         //************** BOTÃO PROXIMO NIVEL **************
+
+        //*************** INICIO GUARDA NIVEL ****************
+        val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putInt("nivel_atual", nivelAtual)
+        editor.apply();
+        Log.d("Debug", "Save Criado $nivelAtual")
+        //**************** FIM GUARDA NIVEL ****************
+
+
     }
 
     //Adquire o nivel de brilho do ecrã

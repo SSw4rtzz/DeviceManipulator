@@ -33,6 +33,7 @@ class Nivel2 : AppCompatActivity() {
     private var xVel = 0.0f
     private var yVel = 0.0f
     private var stringDica = "Inclina o aparelho para mover o ponto preto"
+    private var nivelAtual = 2;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +66,14 @@ class Nivel2 : AppCompatActivity() {
             dica.show()
         }
         // ****************** BOTÃO DICA ******************
+
+        //*************** INICIO GUARDA NIVEL ****************
+        val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putInt("nivel_atual", nivelAtual)
+        editor.apply();
+        Log.d("Debug", "Save Criado $nivelAtual")
+        //**************** FIM GUARDA NIVEL ****************
 
         // Circulo objetivo que preenche o ecrã quando utilizador faz o objetivo
         val circPreto = findViewById<ImageView>(R.id.circPreto)

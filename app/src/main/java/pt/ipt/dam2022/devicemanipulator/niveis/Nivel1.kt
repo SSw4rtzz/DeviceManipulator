@@ -20,6 +20,7 @@ class Nivel1 : AppCompatActivity() {
     private lateinit var orientationSensor: Sensor
     private var orientationListener: OrientationEventListener? = null
     private var stringDica = "Experimente rodar o telemóvel"
+    private var nivelAtual = 1;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +46,14 @@ class Nivel1 : AppCompatActivity() {
         //Esconde o botão "Próximo Nivel" quando a activity é criada
         btnProximoNivel.visibility = View.GONE
         //************** BOTÃO PROXIMO NIVEL **************
+
+        //*************** INICIO GUARDA NIVEL ****************
+        val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putInt("nivel_atual", nivelAtual)
+        editor.apply();
+        Log.d("Debug", "Save Criado $nivelAtual")
+        //**************** FIM GUARDA NIVEL ****************
 
         btnProximoNivel.visibility = View.GONE
 

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -28,7 +29,7 @@ class Nivel3 : AppCompatActivity(), SensorEventListener {
     private var abanado = false
     private var abanCount = 0
     private var stringDica = "Experimente abanar o telemóvel"
-
+    private var nivelAtual = 3;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +56,14 @@ class Nivel3 : AppCompatActivity(), SensorEventListener {
             dica.show()
         }
         // ****************** BOTÃO DICA ******************
+
+        //*************** INICIO GUARDA NIVEL ****************
+        val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putInt("nivel_atual", nivelAtual)
+        editor.apply();
+        Log.d("Debug", "Save Criado $nivelAtual")
+        //**************** FIM GUARDA NIVEL ****************
 
         // Inicialização do sensor acelerometro
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
