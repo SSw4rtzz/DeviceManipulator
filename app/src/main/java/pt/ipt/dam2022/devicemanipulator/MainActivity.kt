@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         //Reação ao botão "Novo Jogo", limpa t0do o progresso faz o utilizador começar de novo
         val btnNovoJogo = findViewById<Button>(R.id.novoJogo)
         btnNovoJogo.setOnClickListener {
-            val intent = Intent(this, Nivel6::class.java)
+            val intent = Intent(this, Nivel5::class.java)
             startActivity(intent)
         }
 
