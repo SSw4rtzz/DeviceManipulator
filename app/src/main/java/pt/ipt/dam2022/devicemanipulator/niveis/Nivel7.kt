@@ -1,16 +1,14 @@
 package pt.ipt.dam2022.devicemanipulator.niveis
 
 import android.animation.AnimatorSet
-import android.animation.FloatEvaluator
 import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.animation.PathInterpolator
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
@@ -18,14 +16,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import pt.ipt.dam2022.devicemanipulator.R
-import androidx.core.view.ViewCompat.animate
-import com.google.android.material.animation.AnimatorSetCompat.playTogether
 
 class Nivel7 : AppCompatActivity() {
 
     private var nivelAtual = 7
     private var stringDica = "Insere a distância entre o Planeta Terra e a lua e depois o ano de lançamento da Apollo 11"
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.nivel7)
@@ -41,7 +38,7 @@ class Nivel7 : AppCompatActivity() {
 
         // ************** BOTÃO PROXIMO NIVEL **************
         //Evento onClick do botão "Próximo Nivel" levando a aplicação à activity do próximo nivel
-        var btnProximoNivel = findViewById<Button>(R.id.btnProximoNivel)
+        val btnProximoNivel = findViewById<Button>(R.id.btnProximoNivel)
         btnProximoNivel.setOnClickListener {
             val intent = Intent(this, Nivel7::class.java)
             startActivity(intent)
@@ -83,15 +80,15 @@ class Nivel7 : AppCompatActivity() {
         val rotacao = ObjectAnimator.ofFloat(foguetao, View.ROTATION, 0f, 100f)
         rotacao.duration = 1000
 
-        var inputResposta = findViewById<EditText>(R.id.inputRespostas)
+        val inputResposta = findViewById<EditText>(R.id.inputRespostas)
 
         //Lê o input e valida as respostas
         inputResposta.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                var resposta = inputResposta.text.toString()
+                val resposta = inputResposta.text.toString()
                 //if(inputResposta.text.isEmpty()){
                     //Valida preimeira resposta, se a respota do utilizador for igual à solução, retorna true
-                    if(!inputResposta.text.isEmpty() && resposta.toInt() == solucao1){
+                    if(inputResposta.text.isNotEmpty() && resposta.toInt() == solucao1){
                         Log.d("Debug", "Parte 1: "+ resposta.toInt())
                         inputResposta.setText("")
                         solucao1Concluida = true
@@ -103,7 +100,7 @@ class Nivel7 : AppCompatActivity() {
                 //}
                 //Valida segunda resposta
                 if(solucao1Concluida){
-                    if(!inputResposta.text.isEmpty() && resposta.toInt() == solucao2){
+                    if(inputResposta.text.isNotEmpty() && resposta.toInt() == solucao2){
                         Log.d("Debug", "Parte 2: "+ resposta.toInt())
                         val animatorSet = AnimatorSet()
                         animatorSet.playTogether(viagem, rotacao)
