@@ -123,6 +123,7 @@ class MainActivity : AppCompatActivity() {
         auth.signInWithCredential(credential).addOnCompleteListener{
             if(it.isSuccessful){
                 val intent = Intent(this, AutenticadoActivity::class.java)
+                intent.putExtra("nome", account?.displayName)
                 startActivity(intent)
             }else{
                 Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
