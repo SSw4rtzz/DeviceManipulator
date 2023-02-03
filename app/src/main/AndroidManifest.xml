@@ -17,6 +17,9 @@
         android:theme="@style/Theme.DeviceManipulator"
         tools:targetApi="31">
         <activity
+            android:name=".AutenticadoActivity"
+            android:exported="false" />
+        <activity
             android:name=".niveis.Nivel7"
             android:exported="false" />
         <activity

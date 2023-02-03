@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "107503638480",
+    "project_id": "devicemanipulator",
+    "storage_bucket": "devicemanipulator.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107503638480:android:879ee7617da2d61a824bd5",
+        "android_client_info": {
+          "package_name": "pt.ipt.dam2022.devicemanipulator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "107503638480-47ft5h5obc2mqutsrgjt3ahpq78ft4ur.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pt.ipt.dam2022.devicemanipulator",
+            "certificate_hash": "d3a458ec9013359f421ede05dec91c9c59799252"
+          }
+        },
+        {
+          "client_id": "107503638480-8ce22d8f4uslkp4r5v9ifpkinbc0bu1v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDN2EdNnb3jz3J-B1bmKkelDC2PneWPyYA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "107503638480-3656ntog0oc0vpm2l141tdqul9kt3f0c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
