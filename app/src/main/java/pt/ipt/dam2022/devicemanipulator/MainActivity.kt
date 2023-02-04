@@ -119,12 +119,6 @@ class MainActivity : AppCompatActivity() {
             editor.putInt("nivel_atual", 4)
             editor.apply()
             Log.d("Debug", "Ficheiro criado")
-
-        }
-
-        if (googleSignInAccount != null) {
-            val savesManager = Progresso(googleSignInAccount, this)
-            // use savesManager to save and load game data
         }
     }
 

@@ -12,4 +12,6 @@
     <string name="invalid_password">A password deve ter mais de 5 characteres</string>
     <string name="login_failed">"Autenticação falhada"</string>
     <string name="bemvindo">Bem vindo, %s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

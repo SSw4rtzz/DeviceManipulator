@@ -187,16 +187,29 @@ class Nivel6 : AppCompatActivity() {
                                 val googleSignInAccount = GoogleSignIn.getLastSignedInAccount(context)
                                 //Se o utilizador tiver conectado com uma conta, guarda na conta, se não, guarda localmente
                                 if (googleSignInAccount != null) {
-                                    //Save na cloud
-                                    progresso = Progresso(googleSignInAccount, context)
-                                    progresso.guardaNivel(proxNivel)
+                                    //Verifica se existe um nivel guardado a cima do proxNivel, se houver não guarda
+                                    val autenticado = Progresso(googleSignInAccount, context)
+                                    autenticado.getNivelAtual { nivel ->
+                                        if(nivel == null || nivel <= proxNivel){
+                                            //Save na cloud
+                                            Log.d("Debug", "Guardei")
+                                            progresso = Progresso(googleSignInAccount, context)
+                                            progresso.guardaNivel(proxNivel)
+                                        } else {
+                                            Log.d("Debug", "Existe um nivel mais avançado guardado na cloud")
+                                        }
+                                    }
                                 } else {
                                     //Save local
                                     val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
-                                    val editor = sharedPref.edit()
-                                    editor.putInt("nivel_atual", proxNivel)
-                                    editor.apply()
-                                    Log.d("Debug", "Save Criado $proxNivel")
+                                    //Verifica se existe um nivel guardado a cima do proxNivel, se houver não guarda
+                                    val nivelGuardo = sharedPref.getInt("nivel_atual", 1)
+                                    if(proxNivel > nivelGuardo) {
+                                        val editor = sharedPref.edit()
+                                        editor.putInt("nivel_atual", proxNivel)
+                                        editor.apply()
+                                        Log.d("Debug", "Save Criado $proxNivel")
+                                    }
                                 }
                                 //**************** FIM GUARDA NIVEL ****************
                                 btnProximoNivel.visibility = View.VISIBLE

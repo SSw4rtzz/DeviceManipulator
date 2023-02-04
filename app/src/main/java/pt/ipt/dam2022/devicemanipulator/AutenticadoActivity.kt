@@ -2,12 +2,16 @@ package pt.ipt.dam2022.devicemanipulator
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Layout
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -20,7 +24,6 @@ class AutenticadoActivity : AppCompatActivity() {
 
     private var nivelAtual = 1
     var progresso = false
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,6 +106,64 @@ class AutenticadoActivity : AppCompatActivity() {
                 .build()
             val googleSignInClient = GoogleSignIn.getClient(this, gso)
             googleSignInClient.signOut()
+        }
+
+        //Ver niveis
+        findViewById<Button>(R.id.btnNiveis).setOnClickListener{
+            setContentView(R.layout.ver_niveis)
+
+            // ****************** BOTÃO INICIO ******************
+            val btnInicio = findViewById<ImageView>(R.id.inicio)
+            //Evento onClick do botão "Inicio" volta ao MainActivity
+            btnInicio.setOnClickListener {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
+            // ****************** BOTÃO INICIO ******************
+
+            //**** INICIO AQUISIÇÃO DAS REFERENCIAS DOS BOTÕES ****
+            //Não foi conseguido encontrar id's de variáveis dinamicamente com o "val nivelBloqueado = findViewById<Button>(resources.getIdentifier(paths, "id", packageName))"
+            val btnNivel1 = findViewById<Button>(R.id.btnNivel1)
+            val btnNivel2 = findViewById<Button>(R.id.btnNivel2)
+            val btnNivel3 = findViewById<Button>(R.id.btnNivel3)
+            val btnNivel4 = findViewById<Button>(R.id.btnNivel4)
+            val btnNivel5 = findViewById<Button>(R.id.btnNivel5)
+            val btnNivel6 = findViewById<Button>(R.id.btnNivel6)
+            val btnNivel7 = findViewById<Button>(R.id.btnNivel7)
+            val btnNiveis = mapOf(
+                1 to btnNivel1,
+                2 to btnNivel2,
+                3 to btnNivel3,
+                4 to btnNivel4,
+                5 to btnNivel5,
+                6 to btnNivel6,
+                7 to btnNivel7
+            )
+            //**** FIM AQUISIÇÃO DAS REFERENCIAS DOS BOTÕES ****
+            Log.d("Debug", "NivelAtual: $nivelAtual")
+            val bloqueado = ContextCompat.getDrawable(this, R.drawable.bloqueado)
+            if (nivelAtual >= 1) {
+                var proxNivel = nivelAtual + 1
+                for (i in proxNivel..7) {
+                    btnNiveis[i]?.isEnabled = false
+                    btnNiveis[i]?.setCompoundDrawablesWithIntrinsicBounds(bloqueado, null, null, null)
+                    btnNiveis[i]?.setTextColor(Color.parseColor("#666666"))
+            }
+                for (i in 1 until proxNivel) {
+                        btnNiveis[i]?.setOnClickListener {
+                            val intent = Intent(this, Class.forName("pt.ipt.dam2022.devicemanipulator.niveis.Nivel$i"))
+                            startActivity(intent)
+                        }
+                    }
+            }
+        }
+
+
+
+
+        //Reação ao botão "Creditos"
+        findViewById<Button>(R.id.creditos).setOnClickListener{
+            setContentView(R.layout.creditos)
         }
     }
 }

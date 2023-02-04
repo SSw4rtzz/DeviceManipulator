@@ -63,6 +63,16 @@
         app:layout_constraintVertical_bias="0.99" />
 
     <Button
+        android:id="@+id/btnNiveis"
+        android:layout_width="119dp"
+        android:layout_height="48dp"
+        android:text="Níveis"
+        app:layout_constraintBottom_toTopOf="@+id/creditos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/novoJogo" />
+
+    <Button
         android:id="@+id/creditos"
         android:layout_width="119dp"
         android:layout_height="48dp"
