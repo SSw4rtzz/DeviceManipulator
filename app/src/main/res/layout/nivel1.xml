@@ -8,6 +8,18 @@
     android:background="@color/white"
     tools:context=".niveis.Nivel1">
 
+    <ImageView
+        android:id="@+id/inicio"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/dica"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.018"
+        app:srcCompat="@drawable/inicio" />
+
     <TextView
         android:id="@+id/dica1"
         android:layout_width="149dp"

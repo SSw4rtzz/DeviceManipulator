@@ -18,6 +18,7 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
+import pt.ipt.dam2022.devicemanipulator.MainActivity
 import pt.ipt.dam2022.devicemanipulator.R
 
 
@@ -33,7 +34,7 @@ class Nivel2 : AppCompatActivity() {
     private var xVel = 0.0f
     private var yVel = 0.0f
     private var stringDica = "Inclina o aparelho para mover o ponto preto"
-    private var nivelAtual = 2;
+    private var proxNivel = 3;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,14 +67,7 @@ class Nivel2 : AppCompatActivity() {
             dica.show()
         }
         // ****************** BOTÃO DICA ******************
-
-        //*************** INICIO GUARDA NIVEL ****************
-        val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        editor.putInt("nivel_atual", nivelAtual)
-        editor.apply();
-        Log.d("Debug", "Save Criado $nivelAtual")
-        //**************** FIM GUARDA NIVEL ****************
+        val intent = Intent(this, MainActivity::class.java)
 
         // Circulo objetivo que preenche o ecrã quando utilizador faz o objetivo
         val circPreto = findViewById<ImageView>(R.id.circPreto)
@@ -153,6 +147,13 @@ class Nivel2 : AppCompatActivity() {
                 if ((xScreen <= posObjetivox + raioObjetivo && xScreen >= posObjetivox - raioObjetivo) && (yScreen <= posObjetivoy + raioObjetivo && yScreen >= posObjetivoy - raioObjetivo)){
                     //Para o listener do sensor
                         sensorManager.unregisterListener(this, accelerometer)
+                        //*************** INICIO GUARDA NIVEL ****************
+                        val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
+                        val editor = sharedPref.edit()
+                        editor.putInt("nivel_atual", proxNivel)
+                        editor.apply();
+                        Log.d("Debug", "Save Criado $proxNivel")
+                        //**************** FIM GUARDA NIVEL ****************
                         btnProximoNivel.visibility = View.VISIBLE
                         //Faz animação
                         circPreto.startAnimation(zoom)
@@ -160,6 +161,14 @@ class Nivel2 : AppCompatActivity() {
                     h.postDelayed({layout.setBackgroundColor(Color.BLACK) }, 2900)
                 }
 
+                // ****************** BOTÃO INICIO ******************
+                val btnInicio = findViewById<ImageView>(R.id.inicio)
+                //Evento onClick do botão "Inicio" volta ao MainActivity
+                btnInicio.setOnClickListener {
+                    startActivity(intent)
+                    sensorManager.unregisterListener(this, accelerometer)
+                }
+                // ****************** BOTÃO INICIO ******************
 
 
                 //************ MODO DESENVOLVIMENTO ****************

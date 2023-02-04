@@ -16,6 +16,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import com.google.android.material.snackbar.Snackbar
+import pt.ipt.dam2022.devicemanipulator.MainActivity
 import pt.ipt.dam2022.devicemanipulator.R
 
 class Nivel4 : AppCompatActivity() {
@@ -23,7 +24,7 @@ class Nivel4 : AppCompatActivity() {
     private var animNoite = true
     private var animDia = false
     private var stringDica = "Experimente utilizar o brilho do telemóvel"
-    private var nivelAtual = 4
+    private var proxNivel = 5
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,14 +50,15 @@ class Nivel4 : AppCompatActivity() {
         btnProximoNivel.visibility = View.GONE
         //************** BOTÃO PROXIMO NIVEL **************
 
-        //*************** INICIO GUARDA NIVEL ****************
-        val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        editor.putInt("nivel_atual", nivelAtual)
-        editor.apply()
-        Log.d("Debug", "Save Criado $nivelAtual")
-        //**************** FIM GUARDA NIVEL ****************
-
+        // ****************** BOTÃO INICIO ******************
+        val btnInicio = findViewById<ImageView>(R.id.inicio)
+        //Evento onClick do botão "Inicio" volta ao MainActivity
+        btnInicio.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            onPause()
+        }
+        // ****************** BOTÃO INICIO ******************
 
     }
 
@@ -91,7 +93,15 @@ class Nivel4 : AppCompatActivity() {
         }
         val h = Handler(Looper.getMainLooper())
         if(brilho == 255){
-            h.postDelayed({btnProximoNivel.visibility = View.VISIBLE }, 2000)
+            h.postDelayed({
+                //*************** INICIO GUARDA NIVEL ****************
+                val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
+                val editor = sharedPref.edit()
+                editor.putInt("nivel_atual", proxNivel)
+                editor.apply();
+                Log.d("Debug", "Save Criado $proxNivel")
+                //**************** FIM GUARDA NIVEL ****************
+                btnProximoNivel.visibility = View.VISIBLE }, 2000)
         }
 
         // Máximo - (brilho / 255f) * (maxTranslationY - minTranslationY)

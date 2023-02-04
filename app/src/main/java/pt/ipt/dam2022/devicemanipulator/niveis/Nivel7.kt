@@ -15,11 +15,12 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
+import pt.ipt.dam2022.devicemanipulator.MainActivity
 import pt.ipt.dam2022.devicemanipulator.R
 
 class Nivel7 : AppCompatActivity() {
 
-    private var nivelAtual = 7
+    private var proxNivel = 7
     private var stringDica = "Insere a distância entre o Planeta Terra e a lua e depois o ano de lançamento da Apollo 11"
 
     @SuppressLint("SuspiciousIndentation")
@@ -40,7 +41,7 @@ class Nivel7 : AppCompatActivity() {
         //Evento onClick do botão "Próximo Nivel" levando a aplicação à activity do próximo nivel
         val btnProximoNivel = findViewById<Button>(R.id.btnProximoNivel)
         btnProximoNivel.setOnClickListener {
-            val intent = Intent(this, Nivel7::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
         //Esconde o botão "Próximo Nivel" quando a activity é criada
@@ -48,13 +49,14 @@ class Nivel7 : AppCompatActivity() {
 
         //************** BOTÃO PROXIMO NIVEL **************
 
-        //*************** INICIO GUARDA NIVEL ****************
-        val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        editor.putInt("nivel_atual", nivelAtual)
-        editor.apply()
-        Log.d("Debug", "Save Criado $nivelAtual")
-        //**************** FIM GUARDA NIVEL ****************
+        // ****************** BOTÃO INICIO ******************
+        val btnInicio = findViewById<ImageView>(R.id.inicio)
+        //Evento onClick do botão "Inicio" volta ao MainActivity
+        btnInicio.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+        // ****************** BOTÃO INICIO ******************
 
         val distanciaLua = findViewById<TextView>(R.id.solucao1)
         val foguetao = findViewById<ImageView>(R.id.foguetao)
@@ -86,8 +88,7 @@ class Nivel7 : AppCompatActivity() {
         inputResposta.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 val resposta = inputResposta.text.toString()
-                //if(inputResposta.text.isEmpty()){
-                    //Valida preimeira resposta, se a respota do utilizador for igual à solução, retorna true
+                    //Valida primeira resposta, se a respota do utilizador for igual à solução, retorna true
                     if(inputResposta.text.isNotEmpty() && resposta.toInt() == solucao1){
                         Log.d("Debug", "Parte 1: "+ resposta.toInt())
                         inputResposta.setText("")
@@ -97,7 +98,6 @@ class Nivel7 : AppCompatActivity() {
                         subtracao.visibility = View.VISIBLE
                         apollo.visibility = View.VISIBLE
                     }
-                //}
                 //Valida segunda resposta
                 if(solucao1Concluida){
                     if(inputResposta.text.isNotEmpty() && resposta.toInt() == solucao2){
@@ -105,6 +105,14 @@ class Nivel7 : AppCompatActivity() {
                         val animatorSet = AnimatorSet()
                         animatorSet.playTogether(viagem, rotacao)
                         animatorSet.start()
+
+                        //*************** INICIO GUARDA NIVEL ****************
+                        val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
+                        val editor = sharedPref.edit()
+                        editor.putInt("nivel_atual", proxNivel)
+                        editor.apply();
+                        Log.d("Debug", "Save Criado $proxNivel")
+                        //**************** FIM GUARDA NIVEL ****************
                         btnProximoNivel.visibility = View.VISIBLE
                     }
                 }
@@ -116,9 +124,5 @@ class Nivel7 : AppCompatActivity() {
                 true
             }
         }
-
-
-
     }
-
 }

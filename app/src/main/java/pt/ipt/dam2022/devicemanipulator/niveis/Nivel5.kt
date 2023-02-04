@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
+import pt.ipt.dam2022.devicemanipulator.MainActivity
 import pt.ipt.dam2022.devicemanipulator.R
 
 class Nivel5 : AppCompatActivity() {
@@ -25,7 +26,7 @@ class Nivel5 : AppCompatActivity() {
     private lateinit var btnProximoNivel : TextView
     var bloqueia = false
 
-    private var nivelAtual = 5
+    private var proxNivel = 6
     private var stringDica = "O melhor é não fazeres nada"
 
 
@@ -54,13 +55,14 @@ class Nivel5 : AppCompatActivity() {
 
         //************** BOTÃO PROXIMO NIVEL **************
 
-        //*************** INICIO GUARDA NIVEL ****************
-        val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        editor.putInt("nivel_atual", nivelAtual)
-        editor.apply()
-        Log.d("Debug", "Save Criado $nivelAtual")
-        //**************** FIM GUARDA NIVEL ****************
+        // ****************** BOTÃO INICIO ******************
+        val btnInicio = findViewById<ImageView>(R.id.inicio)
+        //Evento onClick do botão "Inicio" volta ao MainActivity
+        btnInicio.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+        // ****************** BOTÃO INICIO ******************
 
         contagemTxt = findViewById(R.id.contagem)
 
@@ -85,15 +87,17 @@ class Nivel5 : AppCompatActivity() {
                 }
 
                 override fun onFinish() {
+                    //*************** INICIO GUARDA NIVEL ****************
+                    val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
+                    val editor = sharedPref.edit()
+                    editor.putInt("nivel_atual", proxNivel)
+                    editor.apply();
+                    Log.d("Debug", "Save Criado $proxNivel")
+                    //**************** FIM GUARDA NIVEL ****************
                     btnProximoNivel.visibility = View.VISIBLE
                     bloqueia = true
                 }
             }
             contagem?.start()
         }
-
-
-
-
-
 }

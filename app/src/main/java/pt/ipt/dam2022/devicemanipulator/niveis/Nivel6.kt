@@ -18,6 +18,7 @@ import android.view.animation.TranslateAnimation
 import android.widget.Button
 import android.widget.ImageView
 import com.google.android.material.snackbar.Snackbar
+import pt.ipt.dam2022.devicemanipulator.MainActivity
 import pt.ipt.dam2022.devicemanipulator.R
 
 class Nivel6 : AppCompatActivity() {
@@ -29,7 +30,7 @@ class Nivel6 : AppCompatActivity() {
 
     var nivelConcluido = false
 
-    private var nivelAtual = 6
+    private var proxNivel = 7
     private var stringDica = "Segue as regras de segurança de um passageiro e depois dá uma ajudinha na descolagem"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,14 +58,15 @@ class Nivel6 : AppCompatActivity() {
 
         //************** BOTÃO PROXIMO NIVEL **************
 
-        //*************** INICIO GUARDA NIVEL ****************
-        // Salva o nível atual em shared preferences
-        val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        editor.putInt("nivel_atual", nivelAtual)
-        editor.apply()
-        Log.d("Debug", "Save Criado $nivelAtual")
-        //**************** FIM GUARDA NIVEL ****************
+        // ****************** BOTÃO INICIO ******************
+        val btnInicio = findViewById<ImageView>(R.id.inicio)
+        //Evento onClick do botão "Inicio" volta ao MainActivity
+        btnInicio.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            onPause()
+        }
+        // ****************** BOTÃO INICIO ******************
 
         // Carrega a animação "pisca"
         pisca = AnimationUtils.loadAnimation(this, R.anim.animluzes)
@@ -176,6 +178,13 @@ class Nivel6 : AppCompatActivity() {
                             animationStarted = false
                             // Verifica se o nível foi concluído, se tiver sido, coloca o botão "Próximo Nivel" visivel
                             if(nivelConcluido) {
+                                //*************** INICIO GUARDA NIVEL ****************
+                                val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
+                                val editor = sharedPref.edit()
+                                editor.putInt("nivel_atual", proxNivel)
+                                editor.apply();
+                                Log.d("Debug", "Save Criado $proxNivel")
+                                //**************** FIM GUARDA NIVEL ****************
                                 btnProximoNivel.visibility = View.VISIBLE
                             }
                         }

@@ -16,6 +16,7 @@ import android.widget.Button
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import pt.ipt.dam2022.devicemanipulator.MainActivity
 import pt.ipt.dam2022.devicemanipulator.R
 
 class Nivel3 : AppCompatActivity(), SensorEventListener {
@@ -29,7 +30,7 @@ class Nivel3 : AppCompatActivity(), SensorEventListener {
     private var abanado = false
     private var abanCount = 0
     private var stringDica = "Experimente abanar o telemóvel"
-    private var nivelAtual = 3;
+    private var proxNivel = 4;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,13 +58,15 @@ class Nivel3 : AppCompatActivity(), SensorEventListener {
         }
         // ****************** BOTÃO DICA ******************
 
-        //*************** INICIO GUARDA NIVEL ****************
-        val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        editor.putInt("nivel_atual", nivelAtual)
-        editor.apply();
-        Log.d("Debug", "Save Criado $nivelAtual")
-        //**************** FIM GUARDA NIVEL ****************
+        // ****************** BOTÃO INICIO ******************
+        val btnInicio = findViewById<ImageView>(R.id.inicio)
+        //Evento onClick do botão "Inicio" volta ao MainActivity
+        btnInicio.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            onPause()
+        }
+        // ****************** BOTÃO INICIO ******************
 
         // Inicialização do sensor acelerometro
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -128,7 +131,15 @@ class Nivel3 : AppCompatActivity(), SensorEventListener {
             val btnProximoNivel = findViewById<Button>(R.id.btnProximoNivel)
             // Mostra o botão de próximo nível depois de 2 segundos
             val h = Handler(Looper.getMainLooper())
-            h.postDelayed({btnProximoNivel.visibility = View.VISIBLE }, 2000)
+            h.postDelayed({
+                //*************** INICIO GUARDA NIVEL ****************
+                val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
+                val editor = sharedPref.edit()
+                editor.putInt("nivel_atual", proxNivel)
+                editor.apply();
+                Log.d("Debug", "Save Criado $proxNivel")
+                //**************** FIM GUARDA NIVEL ****************
+                btnProximoNivel.visibility = View.VISIBLE }, 2000)
         }
 
         // Atualiza os valores dos eixos x, y e z
