@@ -11,9 +11,11 @@ import android.view.OrientationEventListener
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.material.snackbar.Snackbar
 import pt.ipt.dam2022.devicemanipulator.MainActivity
 import pt.ipt.dam2022.devicemanipulator.R
+import pt.ipt.dam2022.devicemanipulator.utilizador.Progresso
 
 class Nivel1 : AppCompatActivity() {
 
@@ -21,7 +23,10 @@ class Nivel1 : AppCompatActivity() {
     private lateinit var orientationSensor: Sensor
     private var orientationListener: OrientationEventListener? = null
     private var stringDica = "Experimente rodar o telemóvel"
-    private var proxNivel = 2;
+    private var utilizadorAutenticado = false
+
+    private lateinit var progresso: Progresso
+    private var proxNivel = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +62,12 @@ class Nivel1 : AppCompatActivity() {
             onPause()
         }
         // ****************** BOTÃO INICIO ******************
+        var googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this)
+        if (googleSignInAccount != null) {
+            utilizadorAutenticado = true
+            progresso = Progresso(googleSignInAccount, this)
+        }
+
 
         btnProximoNivel.visibility = View.GONE
 
@@ -69,12 +80,19 @@ class Nivel1 : AppCompatActivity() {
                 Log.d("myTag", "" + orientation)
                 if (orientation in 160..200) {
                     //*************** INICIO GUARDA NIVEL ****************
-                    val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
-                    val editor = sharedPref.edit()
-                    editor.putInt("nivel_atual", proxNivel)
-                    editor.apply();
-                    Log.d("Debug", "Save Criado $proxNivel")
+                    //Se o utilizador tiver conectado com uma conta, guarda na conta, se não, guarda localmente
+                    if (googleSignInAccount != null) {
+                        progresso.guardaNivel(proxNivel)
+                    } else {
+                        val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
+                        val editor = sharedPref.edit()
+                        editor.putInt("nivel_atual", proxNivel)
+                        editor.apply();
+                        Log.d("Debug", "Save Criado $proxNivel")
+                    }
+
                     //**************** FIM GUARDA NIVEL ****************
+
 
                     btnProximoNivel.visibility = View.VISIBLE
                     Log.d("myTag", "Virado ao contrário")

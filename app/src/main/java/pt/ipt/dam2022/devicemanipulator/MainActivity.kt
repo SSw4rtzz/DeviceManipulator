@@ -16,10 +16,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
+//Foi usado Firebase para auxiliar na implementação da autenticação do GoogleSignIn
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import pt.ipt.dam2022.devicemanipulator.niveis.*
-import java.io.File
+import pt.ipt.dam2022.devicemanipulator.utilizador.Progresso
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,11 +28,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
 
     private var nivelAtual = 1
+    var progresso = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this)
+        if (googleSignInAccount != null) {
+            startActivity(Intent(this, AutenticadoActivity::class.java))
+        }
 
         auth = FirebaseAuth.getInstance()
 
@@ -55,7 +61,6 @@ class MainActivity : AppCompatActivity() {
         //Se não existir um nivel guardado, o botão btnContinuar não aparece
         val btnContinuar = findViewById<Button>(R.id.continuar)
         val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
-        var progresso = false
         if(sharedPref.contains("nivel_atual")) {
             nivelAtual = sharedPref.getInt("nivel_atual", 1)
             if(nivelAtual != 1) {
@@ -79,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                     .setPositiveButton("Sim") { _, _ ->
                         val editor = sharedPref.edit()
                         editor.putInt("nivel_atual", 1)
-                        editor.apply();
+                        editor.apply()
                         val intent = Intent(this, Nivel1::class.java)
                         startActivity(intent)
                         btnContinuar.visibility = View.GONE
@@ -115,6 +120,11 @@ class MainActivity : AppCompatActivity() {
             editor.apply()
             Log.d("Debug", "Ficheiro criado")
 
+        }
+
+        if (googleSignInAccount != null) {
+            val savesManager = Progresso(googleSignInAccount, this)
+            // use savesManager to save and load game data
         }
     }
 
