@@ -10,9 +10,11 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.material.snackbar.Snackbar
 import pt.ipt.dam2022.devicemanipulator.MainActivity
 import pt.ipt.dam2022.devicemanipulator.R
+import pt.ipt.dam2022.devicemanipulator.utilizador.Progresso
 
 class Nivel5 : AppCompatActivity() {
 
@@ -26,6 +28,8 @@ class Nivel5 : AppCompatActivity() {
     private lateinit var btnProximoNivel : TextView
     var bloqueia = false
 
+    private lateinit var progresso: Progresso
+    private lateinit var context: Context
     private var proxNivel = 6
     private var stringDica = "O melhor é não fazeres nada"
 
@@ -33,6 +37,8 @@ class Nivel5 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.nivel5)
+
+        context = this //Coloca o context da activity numa variável para permitir ser usada fora do onCreate()
 
         val layout = findViewById<View>(R.id.layoutNivel5)
         val btnDica = findViewById<ImageView>(R.id.dica)
@@ -47,7 +53,7 @@ class Nivel5 : AppCompatActivity() {
         //Evento onClick do botão "Próximo Nivel" levando a aplicação à activity do próximo nivel
         btnProximoNivel = findViewById<Button>(R.id.btnProximoNivel)
         btnProximoNivel.setOnClickListener {
-            val intent = Intent(this, Nivel5::class.java)
+            val intent = Intent(this, Nivel6::class.java)
             startActivity(intent)
         }
         //Esconde o botão "Próximo Nivel" quando a activity é criada
@@ -88,11 +94,20 @@ class Nivel5 : AppCompatActivity() {
 
                 override fun onFinish() {
                     //*************** INICIO GUARDA NIVEL ****************
-                    val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
-                    val editor = sharedPref.edit()
-                    editor.putInt("nivel_atual", proxNivel)
-                    editor.apply();
-                    Log.d("Debug", "Save Criado $proxNivel")
+                    val googleSignInAccount = GoogleSignIn.getLastSignedInAccount(context)
+                    //Se o utilizador tiver conectado com uma conta, guarda na conta, se não, guarda localmente
+                    if (googleSignInAccount != null) {
+                        //Save na cloud
+                        progresso = Progresso(googleSignInAccount, context)
+                        progresso.guardaNivel(proxNivel)
+                    } else {
+                        //Save local
+                        val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
+                        val editor = sharedPref.edit()
+                        editor.putInt("nivel_atual", proxNivel)
+                        editor.apply()
+                        Log.d("Debug", "Save Criado $proxNivel")
+                    }
                     //**************** FIM GUARDA NIVEL ****************
                     btnProximoNivel.visibility = View.VISIBLE
                     bloqueia = true

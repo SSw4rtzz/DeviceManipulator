@@ -15,9 +15,12 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.material.snackbar.Snackbar
 import pt.ipt.dam2022.devicemanipulator.MainActivity
 import pt.ipt.dam2022.devicemanipulator.R
+import pt.ipt.dam2022.devicemanipulator.utilizador.Progresso
 
 class Nivel3 : AppCompatActivity(), SensorEventListener {
     private lateinit var sensorManager: SensorManager
@@ -30,11 +33,15 @@ class Nivel3 : AppCompatActivity(), SensorEventListener {
     private var abanado = false
     private var abanCount = 0
     private var stringDica = "Experimente abanar o telemóvel"
+    private lateinit var progresso: Progresso
+    private lateinit var context: Context
     private var proxNivel = 4;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.nivel3)
+
+        context = this //Coloca o context da activity numa variável para permitir ser usada fora do onCreate()
 
         val layout = findViewById<View>(R.id.layoutNivel3)
 
@@ -133,11 +140,20 @@ class Nivel3 : AppCompatActivity(), SensorEventListener {
             val h = Handler(Looper.getMainLooper())
             h.postDelayed({
                 //*************** INICIO GUARDA NIVEL ****************
-                val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
-                val editor = sharedPref.edit()
-                editor.putInt("nivel_atual", proxNivel)
-                editor.apply();
-                Log.d("Debug", "Save Criado $proxNivel")
+                val googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this)
+                //Se o utilizador tiver conectado com uma conta, guarda na conta, se não, guarda localmente
+                if (googleSignInAccount != null) {
+                    //Save na cloud
+                    progresso = Progresso(googleSignInAccount, context)
+                    progresso.guardaNivel(proxNivel)
+                } else {
+                    //Save local
+                    val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
+                    val editor = sharedPref.edit()
+                    editor.putInt("nivel_atual", proxNivel)
+                    editor.apply()
+                    Log.d("Debug", "Save Criado $proxNivel")
+                }
                 //**************** FIM GUARDA NIVEL ****************
                 btnProximoNivel.visibility = View.VISIBLE }, 2000)
         }

@@ -14,12 +14,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.material.snackbar.Snackbar
 import pt.ipt.dam2022.devicemanipulator.MainActivity
 import pt.ipt.dam2022.devicemanipulator.R
+import pt.ipt.dam2022.devicemanipulator.utilizador.Progresso
 
 class Nivel7 : AppCompatActivity() {
 
+    private lateinit var progresso: Progresso
     private var proxNivel = 7
     private var stringDica = "Insere a distância entre o Planeta Terra e a lua e depois o ano de lançamento da Apollo 11"
 
@@ -27,6 +30,8 @@ class Nivel7 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.nivel7)
+
+        val googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this)
 
         val layout = findViewById<View>(R.id.layoutNivel7)
         val btnDica = findViewById<ImageView>(R.id.dica)
@@ -107,11 +112,19 @@ class Nivel7 : AppCompatActivity() {
                         animatorSet.start()
 
                         //*************** INICIO GUARDA NIVEL ****************
-                        val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
-                        val editor = sharedPref.edit()
-                        editor.putInt("nivel_atual", proxNivel)
-                        editor.apply();
-                        Log.d("Debug", "Save Criado $proxNivel")
+                        //Se o utilizador tiver conectado com uma conta, guarda na conta, se não, guarda localmente
+                        if (googleSignInAccount != null) {
+                            //Save na cloud
+                            progresso = Progresso(googleSignInAccount, this)
+                            progresso.guardaNivel(proxNivel)
+                        } else {
+                            //Save local
+                            val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
+                            val editor = sharedPref.edit()
+                            editor.putInt("nivel_atual", proxNivel)
+                            editor.apply()
+                            Log.d("Debug", "Save Criado $proxNivel")
+                        }
                         //**************** FIM GUARDA NIVEL ****************
                         btnProximoNivel.visibility = View.VISIBLE
                     }

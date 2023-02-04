@@ -23,14 +23,17 @@ class Nivel1 : AppCompatActivity() {
     private lateinit var orientationSensor: Sensor
     private var orientationListener: OrientationEventListener? = null
     private var stringDica = "Experimente rodar o telemóvel"
-    private var utilizadorAutenticado = false
 
     private lateinit var progresso: Progresso
+    private lateinit var context: Context
     private var proxNivel = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.nivel1)
+
+        val googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this)
+        context = this //Coloca o context da activity numa variável para permitir ser usada fora do onCreate()
 
         val layout = findViewById<View>(R.id.layoutNivel1)
         // ****************** BOTÃO DICA ******************
@@ -62,12 +65,6 @@ class Nivel1 : AppCompatActivity() {
             onPause()
         }
         // ****************** BOTÃO INICIO ******************
-        var googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this)
-        if (googleSignInAccount != null) {
-            utilizadorAutenticado = true
-            progresso = Progresso(googleSignInAccount, this)
-        }
-
 
         btnProximoNivel.visibility = View.GONE
 
@@ -82,15 +79,17 @@ class Nivel1 : AppCompatActivity() {
                     //*************** INICIO GUARDA NIVEL ****************
                     //Se o utilizador tiver conectado com uma conta, guarda na conta, se não, guarda localmente
                     if (googleSignInAccount != null) {
+                        //Save na cloud
+                        progresso = Progresso(googleSignInAccount, context)
                         progresso.guardaNivel(proxNivel)
                     } else {
+                        //Save local
                         val sharedPref = getSharedPreferences("game_data", Context.MODE_PRIVATE)
                         val editor = sharedPref.edit()
                         editor.putInt("nivel_atual", proxNivel)
-                        editor.apply();
+                        editor.apply()
                         Log.d("Debug", "Save Criado $proxNivel")
                     }
-
                     //**************** FIM GUARDA NIVEL ****************
 
 
