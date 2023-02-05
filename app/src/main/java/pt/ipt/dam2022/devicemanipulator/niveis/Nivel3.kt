@@ -16,7 +16,6 @@ import android.widget.Button
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.material.snackbar.Snackbar
 import pt.ipt.dam2022.devicemanipulator.MainActivity
 import pt.ipt.dam2022.devicemanipulator.R
@@ -35,7 +34,7 @@ class Nivel3 : AppCompatActivity(), SensorEventListener {
     private var stringDica = "Experimente abanar o telemóvel"
     private lateinit var progresso: Progresso
     private lateinit var context: Context
-    private var proxNivel = 4;
+    private var proxNivel = 4
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

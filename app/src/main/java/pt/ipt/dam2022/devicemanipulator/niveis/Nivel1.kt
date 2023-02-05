@@ -106,7 +106,6 @@ class Nivel1 : AppCompatActivity() {
                     }
                     //**************** FIM GUARDA NIVEL ****************
 
-
                     btnProximoNivel.visibility = View.VISIBLE
                     Log.d("myTag", "Virado ao contrário")
                 }
@@ -114,11 +113,13 @@ class Nivel1 : AppCompatActivity() {
         }
     }
 
+    //Ativa os sensores quando a aplicação é focada
     override fun onResume() {
         super.onResume()
         orientationListener?.enable()
     }
 
+    //Para os sensores em pausa quando a aplicação é colocada em pausa
     override fun onPause() {
         super.onPause()
         orientationListener?.disable()

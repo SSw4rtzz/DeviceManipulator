@@ -8,78 +8,89 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/nomeApp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DevideManipulator"
+        android:text="DeviceManipulator"
         android:textSize="30sp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.762"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.172" />
-
-    <Button
-        android:id="@+id/entrar"
-        android:layout_width="134dp"
-        android:layout_height="69dp"
-        android:layout_marginTop="484dp"
-        android:text="Entrar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/novoJogo"
-        android:layout_width="229dp"
-        android:layout_height="64dp"
-        android:text="Novo Jogo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.352" />
+        app:layout_constraintVertical_bias="0.17" />
 
     <Button
         android:id="@+id/continuar"
         android:layout_width="230dp"
-        android:layout_height="58dp"
+        android:layout_height="64dp"
+        android:backgroundTint="@color/black"
         android:text="Continuar"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.259" />
+        app:layout_constraintVertical_bias="0.334" />
 
     <Button
         android:id="@+id/gAutenticacao"
-        android:layout_width="335dp"
-        android:layout_height="55dp"
+        android:layout_width="313dp"
+        android:layout_height="56dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
         android:text="Entrar com Google"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:backgroundTint="@color/black"
         app:icon="@drawable/google"
-        app:iconTint="@color/white"
         app:iconSize="@dimen/activity_vertical_margin"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/btnCreditos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/novoJogo"
+        app:layout_constraintVertical_bias="0.348" />
+
+    <Button
+        android:id="@+id/novoJogo"
+        android:layout_width="230dp"
+        android:layout_height="64dp"
+        android:backgroundTint="@color/black"
+        android:text="Novo Jogo"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/continuar"
+        app:layout_constraintVertical_bias="0.021" />
+
+    <Button
+        android:id="@+id/btnCreditos"
+        android:layout_width="119dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="596dp"
+        android:backgroundTint="@color/black"
+        android:text="Créditos"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-        android:id="@+id/creditos"
-        android:layout_width="119dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="564dp"
-        android:text="Créditos"
-        app:layout_constraintEnd_toEndOf="parent"
+    <ImageView
+        android:id="@+id/logotipo"
+        android:layout_width="70dp"
+        android:layout_height="71dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/nomeApp"
+        app:layout_constraintHorizontal_bias="0.576"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.151"
+        app:srcCompat="@drawable/logodm"
+        android:contentDescription="Logotipo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -93,8 +93,11 @@ class Nivel2 : AppCompatActivity() {
         Log.d("myTag", "Altura: $xMax")
         Log.d("myTag", "Largura: $yMax")
 
+
+        //Cria um listener para o sensor aceleromentro
         val listener = object : SensorEventListener {
             override fun onSensorChanged(event: SensorEvent?) {
+                //Aceleração
                 xAccel = event!!.values[0]
                 yAccel = -event.values[1]
                 updateCirculoNivel2()
@@ -131,13 +134,15 @@ class Nivel2 : AppCompatActivity() {
                     yVel = 0f
                 }
 
-                Log.d("myTag", "Posição:")
-                Log.d("myTag", "Largura: $xPos")
-                Log.d("myTag", "Altura: $yPos")
-                Log.d("myTag", "Tem de estar entre x:" + ((xMax/2)/1.5f + radius) + " e " + (xMax/2)/1.5f)
-                Log.d("myTag", "Tem de estar entre y:" + ((yMax/2)/3 + radius) + " e " + (yMax/2)/3)
+                //Debug
+                /*
+                Log.d("Debug", "Posição:")
+                Log.d("Debug", "Largura: $xPos")
+                Log.d("Debug", "Altura: $yPos")
+                Log.d("Debug", "Tem de estar entre x:" + ((xMax/2)/1.5f + radius) + " e " + (xMax/2)/1.5f)
+                Log.d("Debug", "Tem de estar entre y:" + ((yMax/2)/3 + radius) + " e " + (yMax/2)/3)*/
 
-
+            //Animação do ponto
             val anim = ponto.animate().translationX(xPos).translationY(yPos)
                 anim.duration = 100 //250 Default tempo em milissegundos
                 anim.start()
@@ -150,8 +155,6 @@ class Nivel2 : AppCompatActivity() {
                 val posObjetivoy = yMax * 0.23
 
                 //Quando concluido o objetivo, bloqueia o listener do sensor e começa a animação do circPreto
-                //MODO DESENVOLVIMENTO
-                //if ((xPos <= xMax/1.5f) && (yPos <= yMax/3)){
                 if ((xScreen <= posObjetivox + raioObjetivo && xScreen >= posObjetivox - raioObjetivo) && (yScreen <= posObjetivoy + raioObjetivo && yScreen >= posObjetivoy - raioObjetivo)){
                     //Para o listener do sensor
                         sensorManager.unregisterListener(this, accelerometer)
@@ -198,23 +201,10 @@ class Nivel2 : AppCompatActivity() {
                     sensorManager.unregisterListener(this, accelerometer)
                 }
                 // ****************** BOTÃO INICIO ******************
-
-
-                //************ MODO DESENVOLVIMENTO ****************
-                //ponto.x = xScreen
-                //ponto.y = yScreen
-
-
-                //Metodo a funcionar 100%, mas sem animação
-                //ponto.x = xPos
-                //ponto.y = yPos
             }
-
             override fun onAccuracyChanged(sensorEvent: Sensor?, accuracy: Int) {
             }
-
         }
-
         sensorManager.registerListener(listener, accelerometer, SensorManager.SENSOR_DELAY_UI)
     }
 }

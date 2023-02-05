@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Layout
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -29,6 +28,7 @@ class AutenticadoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_autenticado)
 
+        // Get conta Google sign-in do utilizador
         val googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this)
         auth = FirebaseAuth.getInstance()
 
@@ -36,9 +36,8 @@ class AutenticadoActivity : AppCompatActivity() {
         if (googleSignInAccount != null) {
             val autenticado = Progresso(googleSignInAccount, this)
             val bemvindo = findViewById<TextView>(R.id.bemvindo)
-            bemvindo.setText(getString(R.string.bemvindo, autenticado.getNome()));
+            bemvindo.text = getString(R.string.bemvindo, autenticado.getNome())
         }
-
 
         val btnContinuar = findViewById<Button>(R.id.continuar)
 
@@ -57,24 +56,27 @@ class AutenticadoActivity : AppCompatActivity() {
                 }
             }
         } else {
-            //Volta à MainActivity
+            // Se o utilizador não estiver autenticado, volta à MainActivity
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 
+        // Ação do botão "Continuar", leva o utilizador para o último nível jogado
         btnContinuar.setOnClickListener {
-            //Vai para ultimo nivel jogado
             val intent = Intent(this, Class.forName("pt.ipt.dam2022.devicemanipulator.niveis.Nivel$nivelAtual"))
             startActivity(intent)
         }
 
-        //Reação ao botão "Novo Jogo", limpa t0do o progresso faz o utilizador começar de novo
+        // Reação ao botão "Novo Jogo", limpa t0do o progresso faz o utilizador começar de novo
         val btnNovoJogo = findViewById<Button>(R.id.novoJogo)
         btnNovoJogo.setOnClickListener {
+            // Verifica se o utilizador tem algum progresso guardado
             if(progresso) {
+                // Mostra um alerta que pergunta ao utilizador se tem certeza de que quer apagar o progresso
                 val builder = AlertDialog.Builder(this)
                 builder.setMessage("Se começar um novo jogo vai perder todo o progresso anterior. Tem a certeza de que quer começar um novo jogo?")
                     .setCancelable(false)
+                    // Se o utilizador carregar no "Sim" é reencamihado para o primeiro nivel e coloca o progresso do utilizador no nível 1
                     .setPositiveButton("Sim") { _, _ ->
                         if (googleSignInAccount != null) {
                             val autenticado = Progresso(googleSignInAccount, this)
@@ -84,11 +86,13 @@ class AutenticadoActivity : AppCompatActivity() {
                         startActivity(intent)
                         btnContinuar.visibility = View.GONE
                     }
+                    //Se o utilizador carregar em não, nada é alterado e fecha o aviso
                     .setNegativeButton("Não") { dialog, _ ->
                         dialog.cancel()
                     }
                 val alert = builder.create()
                 alert.show()
+            //Se o utilizador não tiver progresso guardado abre o nível 1
             } else {
                 val intent = Intent(this, Nivel1::class.java)
                 startActivity(intent)
@@ -106,6 +110,19 @@ class AutenticadoActivity : AppCompatActivity() {
                 .build()
             val googleSignInClient = GoogleSignIn.getClient(this, gso)
             googleSignInClient.signOut()
+        }
+
+        //Reação ao botão "Creditos"
+        findViewById<Button>(R.id.btnCreditos).setOnClickListener{
+            setContentView(R.layout.creditos)
+            // ****************** BOTÃO INICIO ******************
+            val btnInicio = findViewById<ImageView>(R.id.inicio)
+            //Evento onClick do botão "Inicio" volta ao MainActivity
+            btnInicio.setOnClickListener {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
+            // ****************** BOTÃO INICIO ******************
         }
 
         //Ver niveis
@@ -130,6 +147,7 @@ class AutenticadoActivity : AppCompatActivity() {
             val btnNivel5 = findViewById<Button>(R.id.btnNivel5)
             val btnNivel6 = findViewById<Button>(R.id.btnNivel6)
             val btnNivel7 = findViewById<Button>(R.id.btnNivel7)
+            // Declara a variável "btnNiveis" como um mapa que associa os números dos níveis aos seus respectivos botões
             val btnNiveis = mapOf(
                 1 to btnNivel1,
                 2 to btnNivel2,
@@ -141,14 +159,18 @@ class AutenticadoActivity : AppCompatActivity() {
             )
             //**** FIM AQUISIÇÃO DAS REFERENCIAS DOS BOTÕES ****
             Log.d("Debug", "NivelAtual: $nivelAtual")
+            // declara variável "bloqueado" que irá receber a imagem "bloqueado" na pasta drawable
             val bloqueado = ContextCompat.getDrawable(this, R.drawable.bloqueado)
+            // Verifica se o nível atual do utilizador é maior ou igual a 1
             if (nivelAtual >= 1) {
-                var proxNivel = nivelAtual + 1
+                val proxNivel = nivelAtual + 1
+                // Bloqueia todos os botões dos níveis a seguir ao nível atual
                 for (i in proxNivel..7) {
                     btnNiveis[i]?.isEnabled = false
                     btnNiveis[i]?.setCompoundDrawablesWithIntrinsicBounds(bloqueado, null, null, null)
                     btnNiveis[i]?.setTextColor(Color.parseColor("#666666"))
             }
+                // Adiciona um "listener" aos botões dos niveis já passados e para o nivel a seguir
                 for (i in 1 until proxNivel) {
                         btnNiveis[i]?.setOnClickListener {
                             val intent = Intent(this, Class.forName("pt.ipt.dam2022.devicemanipulator.niveis.Nivel$i"))
@@ -156,14 +178,6 @@ class AutenticadoActivity : AppCompatActivity() {
                         }
                     }
             }
-        }
-
-
-
-
-        //Reação ao botão "Creditos"
-        findViewById<Button>(R.id.creditos).setOnClickListener{
-            setContentView(R.layout.creditos)
         }
     }
 }

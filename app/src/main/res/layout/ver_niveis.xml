@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.018"
-        app:srcCompat="@drawable/inicio" />
+        app:srcCompat="@drawable/voltar" />
 
     <TableLayout
         android:layout_width="409dp"

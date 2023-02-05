@@ -78,19 +78,21 @@ class Nivel4 : AppCompatActivity() {
         }
     }
 
+    //Consoante o valor do sensor de brilho do telemóvel muda a cor de fundo da tela e provoca uma animação tanto na imagem "lua" como na "sol"
     private fun updateBackgroundColor(brilho: Int) {
         val layout = findViewById<View>(R.id.layoutNivel4)
         val btnProximoNivel = findViewById<Button>(R.id.btnProximoNivel)
         val lua = findViewById<ImageView>(R.id.lua)
         val sol = findViewById<ImageView>(R.id.sol)
 
+        // Se o brilho for maior ou igual a 80 e a animação de dia não estiver já a ser executada, cria uma animação do objeto "layout" para mudar a cor de preto para branco progressivamente
         if(brilho >= 80 && !animDia) {
             val anim = ObjectAnimator.ofObject(layout, "backgroundColor", ArgbEvaluator(), Color.BLACK, Color.WHITE)
             anim.duration = 2000
             anim.start()
             animDia = true
             animNoite = false
-            //cor = argbEvaluator.evaluate(brilho / 255f, Color.BLACK, Color.WHITE) as Int
+        // Se o brilho for menor que 80 e a animação de noite não estiver a ser executada cria uma animação do objeto "layout" para mudar a cor de branco para preto
         } else if (brilho < 80 && !animNoite){
             val anim = ObjectAnimator.ofObject(layout, "backgroundColor", ArgbEvaluator(), Color.WHITE, Color.BLACK)
             anim.duration = 2000
@@ -98,7 +100,11 @@ class Nivel4 : AppCompatActivity() {
             animNoite = true
             animDia = false
         }
+
+        // Cria um handler usando o Looper da Thread Principal
         val h = Handler(Looper.getMainLooper())
+
+        // Se o brilho for igual a 255, que corresponde ao máximo, o utilizador passa de nível
         if(brilho == 255){
             h.postDelayed({
                 //*************** INICIO GUARDA NIVEL ****************
@@ -133,17 +139,22 @@ class Nivel4 : AppCompatActivity() {
                 btnProximoNivel.visibility = View.VISIBLE }, 2000)
         }
 
+        // Cálculo para mover a imagem da lua e do sol no eixo do Y do ecrã
         // Máximo - (brilho / 255f) * (maxTranslationY - minTranslationY)
         val displaymetrics = resources.displayMetrics
 
+        // Altura total da tela - 600, altura da imagem
         val yMax = displaymetrics.heightPixels - 600
 
+        // Valor inicial é 0 e o máximo é yMax
         val y = 0 + (brilho / 255f) * (0 - yMax)
 
+        //Inicia animação da imagem "lua"
         val animLua = ObjectAnimator.ofFloat(lua, "translationY", lua.translationY, y)
         animLua.duration = 2000
         animLua.start()
 
+        //Inicia animação da imagem "sol"
         val animSol = ObjectAnimator.ofFloat(sol, "translationY", sol.translationY, y)
         animSol.duration = 2000
         animSol.start()

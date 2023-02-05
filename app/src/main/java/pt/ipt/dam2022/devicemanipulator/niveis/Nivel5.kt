@@ -72,8 +72,10 @@ class Nivel5 : AppCompatActivity() {
 
         contagemTxt = findViewById(R.id.contagem)
 
+        //Coloca o texto "contagem" com o número 20
         contagemTxt.text = "20"
         initContagem()
+        //Quando há um toque no ecrã e a tela ainda o nivel ainda não foi passado, reseta o contador
         layout.setOnClickListener {
             if(!bloqueia){
                  initContagem()
@@ -81,6 +83,7 @@ class Nivel5 : AppCompatActivity() {
         }
     }
 
+        //Inicia contagem decrescente e apresenta-a no ecrã
         private fun initContagem(){
             contagem?.cancel()
 
@@ -92,6 +95,7 @@ class Nivel5 : AppCompatActivity() {
                     contagemTxt.text = tempo.toString()
                 }
 
+                //Quando a contagem decrescente chega ao 0, dá o nivel como concluido e bloqueia o reset da contagem
                 override fun onFinish() {
                     //*************** INICIO GUARDA NIVEL ****************
                     val googleSignInAccount = GoogleSignIn.getLastSignedInAccount(context)
@@ -123,6 +127,7 @@ class Nivel5 : AppCompatActivity() {
                     }
                     //**************** FIM GUARDA NIVEL ****************
                     btnProximoNivel.visibility = View.VISIBLE
+                    //Impede que a contem volte ao ponto inicial
                     bloqueia = true
                 }
             }

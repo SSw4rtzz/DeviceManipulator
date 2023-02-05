@@ -129,7 +129,6 @@ class Nivel7 : AppCompatActivity() {
                         btnProximoNivel.visibility = View.VISIBLE
                     }
                 }
-
                 //Para o Listener e tira o teclado do ecrã
                 false
             } else {

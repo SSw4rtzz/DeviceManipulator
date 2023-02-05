@@ -7,79 +7,105 @@
     android:background="@color/white"
     tools:context=".AutenticadoActivity">
 
+    <ImageView
+        android:id="@+id/logotipo"
+        android:layout_width="70dp"
+        android:layout_height="71dp"
+        android:contentDescription="Logotipo"
+        app:layout_constraintBottom_toTopOf="@+id/bemvindo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.463"
+        app:srcCompat="@drawable/logodm" />
+
     <TextView
         android:id="@+id/bemvindo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
-        android:text="Bem vindo, "
-        android:textSize="20dp"
+        android:text="@string/bemvindo"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/continuar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/novoJogo"
-        android:layout_width="229dp"
-        android:layout_height="64dp"
-        android:text="Novo Jogo"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.352" />
+        app:layout_constraintVertical_bias="0.217" />
+
+    <Button
+        android:id="@+id/novoJogo"
+        android:layout_width="230dp"
+        android:layout_height="64dp"
+        android:backgroundTint="@color/black"
+        android:text="Novo Jogo"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/continuar"
+        app:layout_constraintVertical_bias="0.021" />
 
     <Button
         android:id="@+id/continuar"
         android:layout_width="230dp"
-        android:layout_height="58dp"
+        android:layout_height="64dp"
+        android:backgroundTint="@color/black"
         android:text="Continuar"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.259" />
+        app:layout_constraintVertical_bias="0.334" />
 
-        <com.google.android.material.button.MaterialButton
+    <Button
+        android:id="@+id/btnNiveis"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:text="Níveis"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/btnCreditos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/novoJogo"
+        app:layout_constraintVertical_bias="0.565" />
+
+    <Button
+        android:id="@+id/btnCreditos"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="88dp"
+        android:backgroundTint="@color/black"
+        android:text="Créditos"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/btnSair"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/novoJogo"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
         android:id="@+id/btnSair"
         android:layout_width="335dp"
         android:layout_height="55dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
-        android:text="Sair"
+        android:text="Desconectar"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:backgroundTint="@color/black"
-        app:iconSize="@dimen/activity_vertical_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.99" />
-
-    <Button
-        android:id="@+id/btnNiveis"
-        android:layout_width="119dp"
-        android:layout_height="48dp"
-        android:text="Níveis"
-        app:layout_constraintBottom_toTopOf="@+id/creditos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/novoJogo" />
-
-    <Button
-        android:id="@+id/creditos"
-        android:layout_width="119dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="564dp"
-        android:text="Créditos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
